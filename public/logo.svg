@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="205" height="222" viewBox="0 0 205 222" role="img" aria-labelledby="logo-title">
+  <title id="logo-title">Purple and blue wireless signal logo</title>
+  <defs>
+    <linearGradient id="signal-gradient" x1="0" y1="0" x2="0.12" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#5364e8"/>
+      <stop offset="0.48" stop-color="#5a48ee"/>
+      <stop offset="1" stop-color="#6c29f5"/>
+    </linearGradient>
+    <linearGradient id="dot-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#536deb"/>
+      <stop offset="1" stop-color="#5360e7"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#signal-gradient)" d="M 64.7,47.5 L 76.6,56.7 C 60.8,76.5 52.1,99.4 52.1,124.7 C 51.9,150.7 60.1,174 76.5,193.8 L 65.4,203.4 C 46.8,181 37.1,156 37.1,125.1 C 37.1,93.7 47.2,67.5 64.7,47.5 Z"/>
+  <path fill="url(#signal-gradient)" d="M 91.7,69.6 L 109.6,82.5 L 110.2,110 C 112.7,103.1 116.4,96.5 121.3,91.6 L 132.2,100.5 C 122.9,112.9 119.5,126.2 131.7,150 L 120.2,158.8 C 104.7,145.4 96.5,125.1 93.5,96 C 89.1,105.4 86.8,115.8 87,125.7 C 87,142.2 92.5,157.6 103.8,171.6 L 93.4,180.9 C 79.5,164.9 72.6,146.5 72.6,125.4 C 72.6,103.8 79.3,84.8 91.7,69.6 Z"/>
+  <circle cx="162.8" cy="125.4" r="17.1" fill="url(#dot-gradient)"/>
+</svg>

@@ -1,0 +1,197 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  SUPERADMIN
+  PRINCIPAL
+  ADMIN_AIDE
+  HEAD_TEACHER
+  TEACHER
+}
+
+enum PersonType {
+  TEACHER
+  STUDENT
+}
+
+enum Direction {
+  CLOCK_IN
+  CLOCK_OUT
+}
+
+enum AuditAction {
+  LOGIN
+  LOGOUT
+  LOGIN_FAILED
+  CREATE
+  UPDATE
+  DELETE
+  EXPORT
+  SETTINGS_CHANGE
+  RBAC_CHANGE
+}
+
+model User {
+  id              String   @id @default(uuid())
+  email           String   @unique
+  passwordHash    String
+  name            String
+  role            Role     @default(ADMIN_AIDE)
+  rfidNumber      String?  @unique
+  photoUrl        String?
+  assignedSubject String?
+  advisoryGrade   String?
+  advisorySection String?
+  teacherId       String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  auditLogs       AuditLog[] @relation("ActorAuditLogs")
+}
+
+model RolePermission {
+  id        String   @id @default(uuid())
+  role      Role
+  module    String   // dashboard, teachers, students, classroom_attendance, turnstile_settings, school_settings, audit_logs, rbac_manager, users
+  isAllowed Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([role, module])
+}
+
+model SchoolProfile {
+  id            String   @id @default("default")
+  schoolName    String   @default("City Central High School")
+  schoolAddress String   @default("DepEd Division of Schools, Metro Manila, Philippines")
+  contactInfo   String   @default("+63 (02) 8123-4567 | info@school.edu.ph")
+  principalName String   @default("Dr. Maria Santos-Reyes, CESO V")
+  logoUrl       String?
+  updatedAt     DateTime @updatedAt
+}
+
+model TurnstileSetting {
+  id                     String   @id @default("default")
+  autoToggleDirection    Boolean  @default(true)
+  soundFeedback          Boolean  @default(true)
+  displayDurationSeconds Int      @default(4)
+  announcementText       String?  @default("Please tap your ID card to log attendance.")
+  updatedAt              DateTime @updatedAt
+}
+
+model SystemSetting {
+  id               String   @id @default("default")
+  isLiveDeployment Boolean  @default(false)
+  showDemoAccounts Boolean  @default(true)
+  showTapSimulator Boolean  @default(true)
+  theme            String   @default("fb-classic")
+  updatedAt        DateTime @updatedAt
+}
+
+model Teacher {
+  id               String   @id @default(uuid())
+  employeeNumber   String   @unique
+  firstName        String
+  middleName       String?
+  lastName         String
+  suffix           String?
+  position         String
+  department       String
+  email            String?  @unique
+  contactNumber    String
+  dateHired        DateTime
+  rfidNumber       String   @unique
+  photoUrl         String?
+  employmentStatus String   @default("REGULAR")
+  assignedSubject  String?
+  advisoryGrade    String?
+  advisorySection  String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  classroomAttendance ClassroomAttendance[]
+}
+
+model Student {
+  id              String   @id @default(uuid())
+  lrn             String   @unique
+  firstName       String
+  middleName      String?
+  lastName        String
+  suffix          String?
+  sex             String
+  birthdate       DateTime
+  age             Int
+  gradeLevel      String
+  section         String
+  trackStrand     String?
+  guardianName    String
+  guardianContact String
+  address         String
+  rfidNumber      String   @unique
+  photoUrl        String?
+  status          String   @default("ACTIVE")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  classroomAttendance ClassroomAttendance[]
+}
+
+model AttendanceRecord {
+  id           String     @id @default(uuid())
+  personType   PersonType
+  personId     String
+  rfidNumber   String
+  direction    Direction
+  scannedAt    DateTime   @default(now()) @db.Timestamptz(3)
+  deviceSource String     @default("TURNSTILE_KIOSK")
+
+  @@index([personType, personId])
+  @@index([rfidNumber])
+  @@index([scannedAt])
+}
+
+model ClassroomAttendance {
+  id         String   @id @default(uuid())
+  studentId  String
+  teacherId  String?
+  subject    String
+  gradeLevel String
+  section    String
+  date       DateTime @default(now())
+  status     String
+  remarks    String?
+  createdAt  DateTime @default(now())
+
+  student    Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  teacher    Teacher? @relation(fields: [teacherId], references: [id], onDelete: SetNull)
+
+  @@index([studentId])
+  @@index([date])
+  @@index([gradeLevel, section])
+}
+
+model AuditLog {
+  id           String      @id @default(uuid())
+  timestamp    DateTime    @default(now()) @db.Timestamptz(3)
+  actorId      String?
+  actorRole    String?
+  action       AuditAction
+  entityType   String
+  entityId     String?
+  details      Json?
+  previousHash String
+  currentHash  String
+
+  actor        User?       @relation("ActorAuditLogs", fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([timestamp])
+  @@index([action])
+  @@index([entityType])
+}

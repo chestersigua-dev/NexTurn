@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%" fill="none">
+  <defs>
+    <linearGradient id="sealBlueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1877F2" />
+      <stop offset="100%" stop-color="#0866FF" />
+    </linearGradient>
+    <linearGradient id="sealCyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00B2FF" />
+      <stop offset="100%" stop-color="#1877F2" />
+    </linearGradient>
+    <path id="topTextPath" d="M 70,250 A 180,180 0 0,1 430,250" />
+    <path id="bottomTextPath" d="M 430,250 A 180,180 0 0,1 70,250" />
+  </defs>
+
+  <!-- NO background fill - completely transparent -->
+  
+  <!-- Outer Concentric RFID Radio Arcs -->
+  <circle cx="250" cy="250" r="236" fill="none" stroke="url(#sealCyanGrad)" stroke-width="4" stroke-dasharray="16 8" opacity="0.8" />
+  <circle cx="250" cy="250" r="218" fill="none" stroke="url(#sealBlueGrad)" stroke-width="3" opacity="0.9" />
+
+  <!-- Circular Outer Text -->
+  <text font-family="'Inter', 'Montserrat', Arial, sans-serif" font-size="20" font-weight="900" fill="#1877F2" letter-spacing="4">
+    <textPath href="#topTextPath" startOffset="50%" text-anchor="middle">
+      NEXTURN COMPREHENSIVE ACADEMY
+    </textPath>
+  </text>
+
+  <text font-family="'Inter', 'Montserrat', Arial, sans-serif" font-size="16" font-weight="800" fill="#0284C7" letter-spacing="5">
+    <textPath href="#bottomTextPath" startOffset="50%" text-anchor="middle">
+      ★ EXCELLENCE • INTEGRITY • LEADERSHIP ★
+    </textPath>
+  </text>
+
+  <!-- Inner RFID Beaded Arc -->
+  <circle cx="250" cy="250" r="148" fill="none" stroke="url(#sealCyanGrad)" stroke-width="3.5" stroke-dasharray="8 6" opacity="0.85" />
+  <circle cx="250" cy="250" r="138" fill="none" stroke="url(#sealBlueGrad)" stroke-width="2" />
+
+  <!-- Center RFID "N" Emblem -->
+  <g transform="translate(160, 160) scale(1.8)">
+    <path d="M 18 20 C 18 17.5 20 16 22.5 16 L 27.5 16 C 30 16 32 17.5 32 20 L 32 80 C 32 82.5 30 84 27.5 84 L 22.5 84 C 20 84 18 82.5 18 80 Z" fill="url(#sealBlueGrad)" />
+    <path d="M 26 21 L 52 75 C 53.2 77.5 55 79 57.5 79 L 60.5 79 C 62.5 79 63.8 77.2 63.2 75.3 L 36.5 20.7 C 35.3 18.2 33.5 16.7 31 16.7 L 28 16.7 C 26 16.7 24.8 18.5 26 21 Z" fill="url(#sealCyanGrad)" />
+    <path d="M 48 20 C 48 17.5 50 16 52.5 16 L 57.5 16 C 60 16 62 17.5 62 20 L 62 80 C 62 82.5 60 84 57.5 84 L 52.5 84 C 50 84 48 82.5 48 80 Z" fill="url(#sealBlueGrad)" />
+    <!-- Radio Waves -->
+    <path d="M 64 24 A 40 40 0 0 1 76 50 A 40 40 0 0 1 64 76" stroke="#00B2FF" stroke-width="4" stroke-linecap="round" fill="none" />
+    <path d="M 58 32 A 26 26 0 0 1 66 50 A 26 26 0 0 1 58 68" stroke="#1877F2" stroke-width="4" stroke-linecap="round" fill="none" />
+    <circle cx="55" cy="18" r="4" fill="#00B2FF" />
+  </g>
+</svg>
